@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Switch, Route, RouteComponentProps } from 'react-router-dom';
+import {Switch, Route} from "react-router-dom";
 import {Login} from "../components/Login/Login";
 import {Register} from "../components/Register/Register";
 import {Main} from "../components/Main/Main";
+import {TabNav} from "../components/TabNav/TabNav";
 
 export default (): JSX.Element => {
   const routes = [
@@ -22,28 +23,31 @@ export default (): JSX.Element => {
   ]
 
   return (
-    <Switch>
-      {routes.map((route) => {
-        let renderRoute = (
-          <Route
-            key={route.path}
-            path={route.path}
-            component={route.component}
-          />
-        )
-
-        if (route.path === '/') {
-          renderRoute = (
+    <React.Fragment>
+      <TabNav />
+      <Switch>
+        {routes.map((route) => {
+          let renderRoute = (
             <Route
               key={route.path}
               path={route.path}
               component={route.component}
-              exact
             />
           )
-        }
-        return renderRoute;
-      })}
-    </Switch>
+
+          if (route.path === '/') {
+            renderRoute = (
+              <Route
+                key={route.path}
+                path={route.path}
+                component={route.component}
+                exact
+              />
+            )
+          }
+          return renderRoute;
+        })}
+      </Switch>
+    </React.Fragment>
   )
 }
