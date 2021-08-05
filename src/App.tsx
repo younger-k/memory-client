@@ -4,7 +4,7 @@ import './App.css';
 import {BrowserRouter as Router} from "react-router-dom";
 import Route from "./routes/Route";
 
-function App() {
+const App = (): JSX.Element => {
   return (
     <Router>
       <Route />

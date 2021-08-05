@@ -31,6 +31,17 @@ export default (): JSX.Element => {
             component={route.component}
           />
         )
+
+        if (route.path === '/') {
+          renderRoute = (
+            <Route
+              key={route.path}
+              path={route.path}
+              component={route.component}
+              exact
+            />
+          )
+        }
         return renderRoute;
       })}
     </Switch>
