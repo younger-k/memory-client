@@ -8,21 +8,20 @@ export const baseCss = css`
   h1 {
     margin: 0;
   }
-  .login-form-wrapper {
+  .register-form-wrapper {
+    width: 300px;
     display: flex;
-    .login-field-wrapper {
-      width: auto;
-      height: auto;
+    flex-direction: column;
+    .register-field-wrapper {
       display: flex;
       flex-direction: column;
-      .login-field {
+      .register-field {
         padding: 10px 0;
       }
     }
-    .login-button-wrapper {
+    .register-button-wrapper {
       display: flex;
-      margin-left: 20px;
-      align-items: center;
+      margin-top: 20px;
     }
   }
 `
