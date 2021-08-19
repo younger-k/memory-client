@@ -3,6 +3,7 @@ import React, {ReactElement, useEffect, useState} from "react";
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 import {baseCss} from "./IdolQuestion.style";
+import _ from "lodash";
 
 const defaultAnswer = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -26,24 +27,38 @@ export const IdolQuestion = (): ReactElement => {
   const [grid, setGrid] = useState<number[][]>(defaultAnswer);
   const [position, setPosition] = useState<Position>({row: 9, col: 0});
 
+  const movePosition = (nextPos: Position) => {
+    const _grid: number[][] = _.cloneDeep(grid);
+    _grid[nextPos.row][nextPos.col] += 1;
+    setGrid(_grid);
+    setPosition(nextPos);
+  }
   const handleArrowKey = (event: KeyboardEvent) => {
     const nextPosition: Position = {...position};
     switch (event.key) {
       case 'ArrowUp':
-        if (position.row > 0) nextPosition.row = position.row - 1;
-        setPosition(nextPosition);
+        if (position.row > 0) {
+          nextPosition.row = position.row - 1;
+          movePosition(nextPosition);
+        }
         break;
       case 'ArrowDown':
-        if (position.row < 9) nextPosition.row = position.row + 1;
-        setPosition(nextPosition);
+        if (position.row < 9) {
+          nextPosition.row = position.row + 1;
+          movePosition(nextPosition);
+        }
         break;
       case 'ArrowRight':
-        if (position.col < 9)  nextPosition.col = position.col + 1;
-        setPosition(nextPosition);
+        if (position.col < 9) {
+          nextPosition.col = position.col + 1;
+          movePosition(nextPosition);
+        }
         break;
       case 'ArrowLeft':
-        if (position.col > 0)  nextPosition.col = position.col - 1;
-        setPosition(nextPosition);
+        if (position.col > 0) {
+          nextPosition.col = position.col - 1;
+          movePosition(nextPosition);
+        }
         break;
       default:
         break;
