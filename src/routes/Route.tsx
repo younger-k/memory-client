@@ -27,7 +27,7 @@ export default (): JSX.Element => {
       component: Rank
     },
     {
-      path: '/question',
+      path: '/room6',
       component: IdolQuestion
     }
   ]
