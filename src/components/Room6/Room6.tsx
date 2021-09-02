@@ -40,6 +40,7 @@ interface Position {
 export const Room6 = (): ReactElement => {
   const [grid, setGrid] = useState<number[][]>(defaultGrid);
   const [position, setPosition] = useState<Position>({row: 9, col: 0});
+  const [hint, setHint] = useState<boolean>(false);
 
   const movePosition = (nextPos: Position) => {
     const _grid: number[][] = _.cloneDeep(grid);
@@ -115,7 +116,7 @@ export const Room6 = (): ReactElement => {
         방의 중앙에 위치한 탁자에는 알 수 없는 쪽지와 지도가 놓여 있었다.<br />
         잠시 쉴 생각으로 쇼파에 앉자 거실장 위에 놓여진 TV가 켜졌다.<br /><br />
 
-        시청자 여러분 안녕하십니까. 오늘의 뉴스입니다.<br /><br />
+        시청자 여러분 안녕하십니까. 오늘의 {hint ? <b>NEWS</b>: '뉴스'}입니다.<br /><br />
 
         첫 번째 소식입니다. 도쿄 올림픽에서 한국 여자양궁 대표팀이 단체전에서 금메달을 획득하며 올림픽 9연패 신화를 이어갔습니다.<br /><br />
 
@@ -162,6 +163,15 @@ export const Room6 = (): ReactElement => {
           })}
         </div>
         <div className="button-wrapper">
+          <Button
+            style={{ height: '40px', margin: '8px 0' }}
+            variant="contained"
+            onClick={() => {
+              setHint(true);
+            }}
+          >
+            힌트
+          </Button>
           <Button
             style={{ height: '40px', margin: '8px 0' }}
             variant="contained"
