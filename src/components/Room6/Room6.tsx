@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useState} from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import {baseCss} from "./IdolQuestion.style";
+import {baseCss} from "./Room6.style";
 import _ from "lodash";
 import {Button} from "@material-ui/core";
 
@@ -37,7 +37,7 @@ interface Position {
   col: number;
 }
 
-export const IdolQuestion = (): ReactElement => {
+export const Room6 = (): ReactElement => {
   const [grid, setGrid] = useState<number[][]>(defaultGrid);
   const [position, setPosition] = useState<Position>({row: 9, col: 0});
 
@@ -47,9 +47,10 @@ export const IdolQuestion = (): ReactElement => {
     setGrid(_grid);
     setPosition(nextPos);
   }
-  const handleArrowKey = (event: KeyboardEvent) => {
+
+  const handleArrowCommand = (command: string) => {
     const nextPosition: Position = {...position};
-    switch (event.key) {
+    switch (command) {
       case 'ArrowUp':
         if (position.row > 0) {
           nextPosition.row = position.row - 1;
@@ -79,9 +80,13 @@ export const IdolQuestion = (): ReactElement => {
     }
   }
 
+  const handleArrowKeyDown = (event: KeyboardEvent) => {
+    handleArrowCommand(event.key);
+  }
+
   useEffect(() => {
-    window.addEventListener("keydown", handleArrowKey);
-    return () => window.removeEventListener("keydown", handleArrowKey);
+    window.addEventListener("keydown", handleArrowKeyDown);
+    return () => window.removeEventListener("keydown", handleArrowKeyDown);
   }, [position])
 
   const submitAnswer = () => {
@@ -175,6 +180,20 @@ export const IdolQuestion = (): ReactElement => {
           >
             제출
           </Button>
+        </div>
+        <div className="flex column end">
+          <div className="arrow-wrapper flex">
+            <div className="flex column end">
+              <div className="arrow-left arrow-box" onClick={() => handleArrowCommand('ArrowLeft')}></div>
+            </div>
+            <div className="arrow-up-and-down flex column">
+              <div className="arrow-up arrow-box" onClick={() => handleArrowCommand('ArrowUp')}></div>
+              <div className="arrow-down arrow-box" onClick={() => handleArrowCommand('ArrowDown')}></div>
+            </div>
+            <div className="flex column end">
+              <div className="arrow-right arrow-box" onClick={() => handleArrowCommand('ArrowRight')}></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

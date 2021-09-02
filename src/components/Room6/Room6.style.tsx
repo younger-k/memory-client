@@ -5,6 +5,15 @@ export const baseCss = css`
   height: auto;
   margin: auto;
   padding: 30px 0;
+  .flex {
+    display: flex;
+    &.column {
+      flex-direction: column;
+    }
+    &.end {
+      justify-content: flex-end;
+    }
+  }
   .question-description {
     margin-bottom: 50px;
     .note {
@@ -23,6 +32,7 @@ export const baseCss = css`
   }
   .answer-form-wrapper {
     display: flex;
+    width: 100%;
     .grid-wrapper {
       width: 300px;
       display:flex;
@@ -64,6 +74,13 @@ export const baseCss = css`
       flex-direction: column;
       justify-content: flex-end;
       margin-left: 20px;
+    }
+    .arrow-wrapper {
+      .arrow-box {
+        width: 30px;
+        height: 30px;
+        border: 1px solid black;
+      }
     }
   }
 `
