@@ -6,7 +6,7 @@ import {Register} from "../components/Register/Register";
 import {Main} from "../components/Main/Main";
 import {TabNav} from "../components/TabNav/TabNav";
 import {Rank} from "../components/Rank/Rank";
-import {IdolQuestion} from "../components/IdolQuestion/IdolQuestion";
+import {Room6} from "../components/Room6/Room6";
 
 export default (): JSX.Element => {
   const routes = [
@@ -27,8 +27,8 @@ export default (): JSX.Element => {
       component: Rank
     },
     {
-      path: '/question',
-      component: IdolQuestion
+      path: '/room6',
+      component: Room6
     }
   ]
 

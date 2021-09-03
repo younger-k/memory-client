@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useState} from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import {baseCss} from "./IdolQuestion.style";
+import {baseCss} from "./Room6.style";
 import _ from "lodash";
 import {Button} from "@material-ui/core";
 import {Toast} from "../common/Toast/Toast";
@@ -38,9 +38,10 @@ interface Position {
   col: number;
 }
 
-export const IdolQuestion = (): ReactElement => {
+export const Room6 = (): ReactElement => {
   const [grid, setGrid] = useState<number[][]>(defaultGrid);
   const [position, setPosition] = useState<Position>({row: 9, col: 0});
+  const [hint, setHint] = useState<boolean>(false);
 
   const movePosition = (nextPos: Position) => {
     const _grid: number[][] = _.cloneDeep(grid);
@@ -48,9 +49,10 @@ export const IdolQuestion = (): ReactElement => {
     setGrid(_grid);
     setPosition(nextPos);
   }
-  const handleArrowKey = (event: KeyboardEvent) => {
+
+  const handleArrowCommand = (command: string) => {
     const nextPosition: Position = {...position};
-    switch (event.key) {
+    switch (command) {
       case 'ArrowUp':
         if (position.row > 0) {
           nextPosition.row = position.row - 1;
@@ -80,9 +82,13 @@ export const IdolQuestion = (): ReactElement => {
     }
   }
 
+  const handleArrowKeyDown = (event: KeyboardEvent) => {
+    handleArrowCommand(event.key);
+  }
+
   useEffect(() => {
-    window.addEventListener("keydown", handleArrowKey);
-    return () => window.removeEventListener("keydown", handleArrowKey);
+    window.addEventListener("keydown", handleArrowKeyDown);
+    return () => window.removeEventListener("keydown", handleArrowKeyDown);
   }, [position])
 
   const submitAnswer = () => {
@@ -114,7 +120,7 @@ export const IdolQuestion = (): ReactElement => {
         방의 중앙에 위치한 탁자에는 알 수 없는 쪽지와 지도가 놓여 있었다.<br />
         잠시 쉴 생각으로 쇼파에 앉자 거실장 위에 놓여진 TV가 켜졌다.<br /><br />
 
-        시청자 여러분 안녕하십니까. 오늘의 뉴스입니다.<br /><br />
+        시청자 여러분 안녕하십니까. 오늘의 {hint ? <b>NEWS</b>: '뉴스'}입니다.<br /><br />
 
         첫 번째 소식입니다. 도쿄 올림픽에서 한국 여자양궁 대표팀이 단체전에서 금메달을 획득하며 올림픽 9연패 신화를 이어갔습니다.<br /><br />
 
@@ -165,6 +171,15 @@ export const IdolQuestion = (): ReactElement => {
             style={{ height: '40px', margin: '8px 0' }}
             variant="contained"
             onClick={() => {
+              setHint(true);
+            }}
+          >
+            힌트
+          </Button>
+          <Button
+            style={{ height: '40px', margin: '8px 0' }}
+            variant="contained"
+            onClick={() => {
               setGrid(defaultGrid);
               setPosition({row: 9, col: 0})
             }}
@@ -179,6 +194,20 @@ export const IdolQuestion = (): ReactElement => {
           >
             제출
           </Button>
+        </div>
+        <div className="flex column end">
+          <div className="arrow-wrapper flex">
+            <div className="flex column end">
+              <div className="arrow-left arrow-box" onClick={() => handleArrowCommand('ArrowLeft')}></div>
+            </div>
+            <div className="arrow-up-and-down flex column">
+              <div className="arrow-up arrow-box" onClick={() => handleArrowCommand('ArrowUp')}></div>
+              <div className="arrow-down arrow-box" onClick={() => handleArrowCommand('ArrowDown')}></div>
+            </div>
+            <div className="flex column end">
+              <div className="arrow-right arrow-box" onClick={() => handleArrowCommand('ArrowRight')}></div>
+            </div>
+          </div>
         </div>
       </div>
       <Toast status="fail" message="메세지욤" />
