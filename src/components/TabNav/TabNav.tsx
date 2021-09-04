@@ -14,6 +14,8 @@ export const TabNav = () => {
     {label: 'Board', path: '/board'},
     {label: 'Rank', path: '/rank'},
     {label: 'Room1', path: '/Room1'},
+    {label: 'Stocker1', path: '/always-with-you'},
+    {label: 'Stocker2', path: '/stocker2'},
   ]
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: string) => {
