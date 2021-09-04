@@ -8,6 +8,9 @@ import {TabNav} from "../components/TabNav/TabNav";
 import {Rank} from "../components/Rank/Rank";
 import {Room1} from "../components/Room/Room1";
 import {Room6} from "../components/Room6/Room6";
+import {observer} from "mobx-react-lite";
+import {useDataStore} from "../store/StoreProvider";
+import {Toast} from "../components/common/Toast/Toast";
 
 export default (): JSX.Element => {
   const routes = [
@@ -37,6 +40,21 @@ export default (): JSX.Element => {
     }
   ]
 
+  // @ts-ignore
+  const GlobalToast = observer(() => {
+    const { toastStore } = useDataStore();
+    return (
+      toastStore.isShow && (
+        <Toast
+          status={toastStore.status}
+          message={toastStore.message}
+          time={toastStore.time}
+          closeCallback={() => toastStore.hideToast()}
+        />
+      )
+    );
+  });
+
   return (
     <React.Fragment>
       <TabNav />
@@ -63,6 +81,7 @@ export default (): JSX.Element => {
           return renderRoute;
         })}
       </Switch>
+      <GlobalToast />
     </React.Fragment>
   )
 }
