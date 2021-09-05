@@ -6,6 +6,7 @@ import {baseCss} from "./Room6.style";
 import _ from "lodash";
 import {Button} from "@material-ui/core";
 import {useDataStore} from "../../store/StoreProvider";
+import {Header} from "../common/Header/Header";
 
 const defaultGrid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -117,6 +118,7 @@ export const Room6 = (): ReactElement => {
 
   return (
     <div className="question-wrapper" css={baseCss}>
+      <Header text="Room 6" />
       <div className="question-description">
         방의 중앙에 위치한 탁자에는 알 수 없는 쪽지와 지도가 놓여 있었다.<br />
         잠시 쉴 생각으로 쇼파에 앉자 거실장 위에 놓여진 TV가 켜졌다.<br /><br />
