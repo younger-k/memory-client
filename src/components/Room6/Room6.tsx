@@ -5,7 +5,7 @@ import { jsx, css } from '@emotion/react';
 import {baseCss} from "./Room6.style";
 import _ from "lodash";
 import {Button} from "@material-ui/core";
-import {Toast} from "../common/Toast/Toast";
+import {useDataStore} from "../../store/StoreProvider";
 
 const defaultGrid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -42,6 +42,7 @@ export const Room6 = (): ReactElement => {
   const [grid, setGrid] = useState<number[][]>(defaultGrid);
   const [position, setPosition] = useState<Position>({row: 9, col: 0});
   const [hint, setHint] = useState<boolean>(false);
+  const { toastStore } = useDataStore();
 
   const movePosition = (nextPos: Position) => {
     const _grid: number[][] = _.cloneDeep(grid);
@@ -106,11 +107,11 @@ export const Room6 = (): ReactElement => {
 
     if (isCorrect) {
       // 1. 정답이라면 clear info 등록
-
       // 2. 등록이 완료되면 다음문제로 이동
+      toastStore.showToast('success', '정답입니다', 4000);
     } else {
       // 오답정보 전송
-      alert('오답!');
+      toastStore.showToast('fail', '오답입니다', 4000);
     }
   }
 
@@ -210,7 +211,6 @@ export const Room6 = (): ReactElement => {
           </div>
         </div>
       </div>
-      <Toast status="fail" message="메세지욤" />
     </div>
   )
 }
