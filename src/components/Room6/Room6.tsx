@@ -7,6 +7,8 @@ import _ from "lodash";
 import {Button} from "@material-ui/core";
 import {useDataStore} from "../../store/StoreProvider";
 import {Header} from "../common/Header/Header";
+import {useHistory} from "react-router-dom";
+import {AnswerApi} from "../../service/api/Answer";
 
 const defaultGrid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -21,19 +23,6 @@ const defaultGrid = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-const answerGrid = [
-  [1, 1, 1, 1, 1, 1, 2, 2, 1, 0],
-  [1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
-
 interface Position {
   row: number;
   col: number;
@@ -43,7 +32,10 @@ export const Room6 = (): ReactElement => {
   const [grid, setGrid] = useState<number[][]>(defaultGrid);
   const [position, setPosition] = useState<Position>({row: 9, col: 0});
   const [hint, setHint] = useState<boolean>(false);
+
   const { toastStore } = useDataStore();
+
+  const history = useHistory();
 
   const movePosition = (nextPos: Position) => {
     const _grid: number[][] = _.cloneDeep(grid);
@@ -94,26 +86,20 @@ export const Room6 = (): ReactElement => {
   }, [position])
 
   const submitAnswer = () => {
-    let isCorrect = true;
-
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
-        if (answerGrid[i][j] !== grid[i][j]) {
-          isCorrect = false;
-          break;
+    const params = {answer: grid.toString()}
+    AnswerApi.check(params)
+      .then(({data}) => {
+        const {isCorrect} = data.data;
+        if (isCorrect) {
+          toastStore.showToast('success', '정답입니다', 4000);
+          history.push('/room7');
+        } else {
+          toastStore.showToast('fail', '오답입니다', 4000);
         }
-      }
-      if (!isCorrect) break;
-    }
-
-    if (isCorrect) {
-      // 1. 정답이라면 clear info 등록
-      // 2. 등록이 완료되면 다음문제로 이동
-      toastStore.showToast('success', '정답입니다', 4000);
-    } else {
-      // 오답정보 전송
-      toastStore.showToast('fail', '오답입니다', 4000);
-    }
+      })
+      .catch((err) => {
+        toastStore.showToast('fail', `서버에 예기치 못한 오류가 발생했습니다 (status ${err.status})`, 4000);
+      });
   }
 
   return (
