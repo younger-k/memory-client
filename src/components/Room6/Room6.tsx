@@ -86,7 +86,7 @@ export const Room6 = (): ReactElement => {
   }, [position])
 
   const submitAnswer = () => {
-    const params = {answer: grid.toString()}
+    const params = {answer: grid.toString(), roomId: 'room6'}
     AnswerApi.check(params)
       .then(({data}) => {
         const {isCorrect} = data.data;

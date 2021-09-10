@@ -11,6 +11,7 @@ import {Room6} from "../components/Room6/Room6";
 import {observer} from "mobx-react-lite";
 import {useDataStore} from "../store/StoreProvider";
 import {Toast} from "../components/common/Toast/Toast";
+import {Room7} from "../components/Room7/Room7";
 
 export default (): JSX.Element => {
   const routes = [
@@ -37,6 +38,10 @@ export default (): JSX.Element => {
     {
       path: '/room6',
       component: Room6
+    },
+    {
+      path: '/room7',
+      component: Room7
     }
   ]
 
