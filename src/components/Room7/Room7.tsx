@@ -8,6 +8,7 @@ import {Button} from "@material-ui/core";
 import {useDataStore} from "../../store/StoreProvider";
 import {Header} from "../common/Header/Header";
 import {useHistory} from "react-router-dom";
+import {AnswerApi} from "../../service/api/Answer";
 
 export const Room7 = (): ReactElement => {
   const { toastStore } = useDataStore();
@@ -15,17 +16,20 @@ export const Room7 = (): ReactElement => {
   const [hint, setHint] = useState<boolean>(false);
 
   const submitAnswer = () => {
-    let isCorrect = true;
-
-    if (isCorrect) {
-      // 1. 정답이라면 clear info 등록
-      // 2. 등록이 완료되면 다음문제로 이동
-      toastStore.showToast('success', '정답입니다', 4000);
-      history.push('/room8');
-    } else {
-      // 오답정보 전송
-      toastStore.showToast('fail', '오답입니다', 4000);
-    }
+    const params = {answer: 'answer', roomId: 'room6'}
+    AnswerApi.check(params)
+    .then(({data}) => {
+      const {isCorrect} = data.data;
+      if (isCorrect) {
+        toastStore.showToast('success', '정답입니다', 4000);
+        history.push('/room7');
+      } else {
+        toastStore.showToast('fail', '오답입니다', 4000);
+      }
+    })
+    .catch((err) => {
+      toastStore.showToast('fail', `서버에 예기치 못한 오류가 발생했습니다 (status ${err.status})`, 4000);
+    });
   }
 
   return (
