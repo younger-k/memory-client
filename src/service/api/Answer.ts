@@ -5,10 +5,10 @@ import {IAnswerApi} from "../Interface";
 const serverUrl = "http://localhost:8080/answer"
 
 const check = (params: any): Promise<any> => {
-  const {roomId, answer} = params;
+  const {roomId, answer, spendTime} = params;
 
   const url = `${serverUrl}/check/${roomId}`;
-  const body = { answer: answer }
+  const body = { answer, spendTime }
 
   return axios.post(url, body);
 }
